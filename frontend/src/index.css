@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+body {
+  background-color: #fce7f3; /* soft pink */
+  color: #4c0519; /* dark rose/charcoal */
+  font-family: 'Playfair Display', Georgia, serif;
+}
