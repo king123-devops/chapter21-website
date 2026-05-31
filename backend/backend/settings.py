@@ -11,10 +11,18 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Load environment variables from .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+# Read from the environment, provide no default to force failure if missing
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+# Safely parse the DEBUG boolean
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
