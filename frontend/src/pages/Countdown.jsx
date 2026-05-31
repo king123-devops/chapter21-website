@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAudioTrack } from '../components/GlobalAudioPlayer';
 
 export default function Countdown() {
   const navigate = useNavigate();
   
   const [targetDate] = useState(() => {
-    return new Date('2026-06-08T00:00:00').getTime(); 
+    // For development: 5 second timer.
+    // Replace with the actual date later: new Date('2026-06-08T00:00:00').getTime()
+    return new Date().getTime() + 5000; 
   });
   
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
+
+  useAudioTrack('/birthday.mp3', 0, isUnlocked);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -93,7 +98,7 @@ export default function Countdown() {
                   Happy 21st <br /> Birthday
                 </h1>
                 <p className="text-2xl md:text-5xl text-secondary font-sans italic font-light drop-shadow-sm mt-6">
-                  Welcome to the world, my love.
+                  Welcome to the world, dear.
                 </p>
               </motion.div>
             ) : (

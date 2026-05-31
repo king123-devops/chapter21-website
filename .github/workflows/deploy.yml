@@ -1,0 +1,77 @@
+name: Deploy Infrastructure and Application to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  infrastructure:
+    name: Provision AWS EC2 via Terraform
+    runs-on: ubuntu-latest
+    outputs:
+      ec2_public_ip: ${{ steps.tf_output.outputs.public_ip }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve -var="key_name=${{ secrets.AWS_KEY_PAIR_NAME }}"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+
+      - name: Get EC2 Public IP
+        id: tf_output
+        working-directory: ./terraform
+        run: |
+          echo "public_ip=$(terraform output -raw public_ip)" >> "$GITHUB_OUTPUT"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+
+  deploy:
+    name: Deploy Docker Containers to EC2
+    needs: infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into EC2 and Deploy Application
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ needs.infrastructure.outputs.ec2_public_ip }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            # Give the user_data script time to finish installing docker on first boot
+            sleep 30
+            
+            # Setup application directory
+            mkdir -p /home/ubuntu/app
+            cd /home/ubuntu/app
+            
+            # Remove old code to ensure a clean state
+            sudo rm -rf ./*
+            
+            # Clone fresh code directly using GitHub Token
+            # Using GH_PAT allows fetching private repos
+            git clone -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
+            
+            # Spin down existing containers (if any), rebuild, and spin up
+            sudo docker-compose down
+            sudo docker-compose up -d --build

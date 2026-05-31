@@ -5,25 +5,13 @@ export default function TheLetter() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const letterText = `My dearest,
+  const letterText = `Yooo, officially 21! 🎉
 
-As you step into this beautiful new chapter of your life,
-I want you to know how incredibly proud I am of the person you've become.
+As you step into this beautiful new chapter, I am wishing you the very best, always. Seriously, have you ever imagined how proud your parents are of you? I'm sure they can't even express it in words because you are simply the best.
 
-Every laugh, every tear, and every moment we've shared over these past years
-has only made me realize how profoundly lucky I am to have you by my side.
+It's been exactly 28 days since we met, and I can't tell you how happy I get when I see your messages pop up or how excited I am to hear your voice notes. You are absolute magic, for real!
 
-You are a rare kind of magic.
-
-The way you care, the way you love, the way you light up any room—
-it makes the world a much better place just because you're in it.
-
-As you turn 21, I promise to be here for every new adventure,
-every late-night conversation, and every dream you choose to chase.
-
-This is your year. The world is yours.
-
-I love you, more than words could ever possibly express.`;
+This is your year. The world is yours. I cherish you more than words could ever express. Once again, happiest birthday!`;
 
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
@@ -76,7 +64,7 @@ I love you, more than words could ever possibly express.`;
               className="mt-16 md:mt-20 pt-8 md:pt-10 text-center border-t border-primary/10 relative"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans text-primary animate-pulse-slow drop-shadow-sm leading-tight">
-                Happy Birthday,<br className="block md:hidden" /> My Love.
+                Happy Birthday,<br className="block md:hidden" /> ammu❤️
               </h2>
             </motion.div>
           )}

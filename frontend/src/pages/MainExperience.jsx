@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAudioTrack } from '../components/GlobalAudioPlayer';
 
 export default function MainExperience() {
+  useAudioTrack('/birthday.mp3', 0, true);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {

@@ -1,8 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useAudioTrack } from './GlobalAudioPlayer';
 
 export default function StarConstellation() {
+  useAudioTrack('/perfect.mp3', 0, true);
+
   const [reasons, setReasons] = useState([]);
   const [selectedReasonIndex, setSelectedReasonIndex] = useState(null);
   const [loading, setLoading] = useState(true);

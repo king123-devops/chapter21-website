@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: django_backend
+    restart: always
+    expose:
+      - "8000"
+    volumes:
+      - backend_static:/app/static
+      - backend_media:/app/media
+    # environment:
+    #   - DATABASE_URL=postgres://user:pass@db:5432/dbname
+    # depends_on:
+    #   - db
+
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - backend_static:/usr/share/nginx/html/static
+      - backend_media:/usr/share/nginx/html/media
+
+volumes:
+  backend_static:
+  backend_media:

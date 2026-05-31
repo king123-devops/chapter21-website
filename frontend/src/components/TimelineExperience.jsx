@@ -1,8 +1,11 @@
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useAudioTrack } from './GlobalAudioPlayer';
 
 export default function AuraCanvas() {
+  useAudioTrack('/love.mp3', 30, true);
+
   const containerRef = useRef(null);
 
   const polaroids = [
@@ -12,7 +15,8 @@ export default function AuraCanvas() {
       rotate: -6, 
       top: '12%', 
       left: '8%', 
-      text: 'Your laugh is incredibly contagious.' 
+      text: 'Your laugh is incredibly contagious.',
+      caption: 'pure elegance'
     },
     { 
       id: 2, 
@@ -20,7 +24,8 @@ export default function AuraCanvas() {
       rotate: 4, 
       top: '35%', 
       left: '50%', 
-      text: 'The best 28 days.' 
+      text: 'The best 28 days.',
+      caption: 'that smile'
     },
     { 
       id: 3, 
@@ -28,7 +33,8 @@ export default function AuraCanvas() {
       rotate: -4, 
       top: '60%', 
       left: '15%', 
-      text: 'You make everything brighter.' 
+      text: 'You make everything brighter.',
+      caption: 'stunning aura'
     },
     { 
       id: 4, 
@@ -36,7 +42,26 @@ export default function AuraCanvas() {
       rotate: 7, 
       top: '75%', 
       left: '55%', 
-      text: 'Every single moment is magic.' 
+      text: 'Every single moment is magic.',
+      caption: 'breathtaking' 
+    },
+    { 
+      id: 5, 
+      src: '/photo5.png', 
+      rotate: 5, 
+      top: '15%', 
+      left: '75%', 
+      text: 'I love the way you see the world.',
+      caption: 'So chic'
+    },
+    { 
+      id: 6, 
+      src: '/photo6.png', 
+      rotate: -3, 
+      top: '45%', 
+      left: '80%', 
+      text: 'To many more beautiful memories.',
+      caption: 'timeless beauty'
     },
   ];
 
@@ -104,17 +129,24 @@ export default function AuraCanvas() {
               y: { duration: 4 + item.id * 0.5, repeat: Infinity, ease: "easeInOut" },
               rotate: { duration: 5 + item.id * 0.5, repeat: Infinity, ease: "easeInOut" }
             }}
-            className="absolute w-48 md:w-64 bg-white p-3 md:p-4 pb-12 md:pb-16 rounded-sm shadow-[0_15px_30px_rgba(0,0,0,0.15)] border-b-8 border-white cursor-grab"
+            className="absolute w-48 md:w-64 bg-[#fdfbf7] p-3 md:p-4 rounded-sm shadow-[0_20px_40px_rgba(0,0,0,0.2)] cursor-grab border border-black/5"
             style={{ touchAction: 'none' }} // Crucial to prevent mobile scrolling while dragging
           >
-            <div className="w-full aspect-square bg-rose-50 overflow-hidden relative border border-secondary/5">
+            <div className="w-full aspect-square bg-rose-50 overflow-hidden relative shadow-inner">
               <img 
                 src={item.src} 
                 alt="Memory" 
-                className="w-full h-full object-cover pointer-events-none select-none"
+                className="w-full h-full object-cover pointer-events-none select-none filter contrast-[1.05] sepia-[0.1]"
               />
-              {/* Subtle glass overlay inside the polaroid */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+              {/* Subtle vintage glass overlay inside the polaroid */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-rose-900/10 via-transparent to-amber-100/10 mix-blend-overlay pointer-events-none"></div>
+            </div>
+            
+            {/* Handwriting Caption */}
+            <div className="w-full flex items-center justify-center pt-4 md:pt-6 pb-2 text-center">
+              <span className="font-['Caveat'] text-3xl md:text-4xl text-neutral-800 rotate-[-2deg] opacity-90 leading-none">
+                {item.caption}
+              </span>
             </div>
           </motion.div>
         ))}

@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import TheLetter from '../components/TheLetter';
+import { useAudioTrack } from '../components/GlobalAudioPlayer';
 
 export default function TheLetterPage() {
+  useAudioTrack('/until_i_found_you.mp3', 0, true);
+
   return (
     <div className="min-h-screen relative pt-24 md:pt-32 pb-10 md:pb-20 px-2 md:px-4">
       <div className="fixed top-8 left-6 md:left-8 z-50">
