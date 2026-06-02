@@ -66,7 +66,7 @@ variable "key_name" {
 # EC2 Instance
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   key_name      = var.key_name
 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
