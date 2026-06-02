@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "chapter-21-tf-state" # Replace with your actual unique bucket name
+    key    = "prod/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 provider "aws" {
   region = "us-east-1"
 }

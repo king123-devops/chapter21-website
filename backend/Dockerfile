@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 COPY . .
 
 # Collect static files (optional, depends on your setup)
-# RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Run gunicorn (Replace 'backend.wsgi:application' with your actual wsgi module path)
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi:application"]
