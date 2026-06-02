@@ -61,16 +61,15 @@ jobs:
             # Give the user_data script time to finish installing docker on first boot
             sleep 30
             
-            # Setup application directory
-            mkdir -p /home/ubuntu/app
-            cd /home/ubuntu/app
+            # Go to home directory and completely wipe the old app folder (including hidden files)
+            cd /home/ubuntu
+            sudo rm -rf app
             
-            # Remove old code to ensure a clean state
-            sudo rm -rf ./*
+            # Clone fresh code directly into a new 'app' folder
+            git clone -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git app
             
-            # Clone fresh code directly using GitHub Token
-            # Using GH_PAT allows fetching private repos
-            git clone -b main https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git .
+            # Enter the directory
+            cd app
             
             # Spin down existing containers (if any), rebuild, and spin up
             sudo docker-compose down
