@@ -7,9 +7,7 @@ export default function Countdown() {
   const navigate = useNavigate();
   
   const [targetDate] = useState(() => {
-    // For development: 5 second timer.
-    // Replace with the actual date later: new Date('2026-06-08T00:00:00').getTime()
-    return new Date().getTime() + 5000; 
+    return new Date('2026-06-08T00:00:00').getTime();
   });
   
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
